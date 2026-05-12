@@ -137,7 +137,6 @@ footer a:hover{color:#d4c4a0;}
   <div class="scroll-hint">Листать <span></span></div>
 </section>
 
-<!-- INTRO -->
 <section style="padding:5rem 2.5rem 2rem;">
   <div style="max-width:700px;margin:0 auto;text-align:center;" class="reveal">
     <p class="section-label" style="margin-bottom:1rem;">О нас</p>
@@ -147,7 +146,6 @@ footer a:hover{color:#d4c4a0;}
   </div>
 </section>
 
-<!-- TOURS -->
 <section id="tours" style="padding:4rem 2.5rem 5rem;max-width:1280px;margin:0 auto;">
   <div class="reveal" style="margin-bottom:1.5rem;">
     <p class="section-label" style="margin-bottom:.8rem;">Афиша путешествий 2026</p>
@@ -336,7 +334,6 @@ footer a:hover{color:#d4c4a0;}
   </div>
 </section>
 
-<!-- EXCURSIONS -->
 <section id="excursions" style="background:var(--muted);padding:5rem 2.5rem;">
   <div style="max-width:1280px;margin:0 auto;">
     <div class="reveal" style="margin-bottom:2.5rem;">
@@ -357,7 +354,6 @@ footer a:hover{color:#d4c4a0;}
   </div>
 </section>
 
-<!-- GALLERY -->
 <section id="gallery" style="background:var(--light);padding:5rem 2.5rem;">
   <div style="max-width:1280px;margin:0 auto;">
     <div class="reveal" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;gap:1rem;">
@@ -377,7 +373,6 @@ footer a:hover{color:#d4c4a0;}
   </div>
 </section>
 
-<!-- REVIEWS -->
 <section id="reviews" style="background:var(--muted);padding:5rem 2.5rem;">
   <div style="max-width:1280px;margin:0 auto;">
     <div class="reveal" style="margin-bottom:2.5rem;">
@@ -394,7 +389,6 @@ footer a:hover{color:#d4c4a0;}
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" style="padding:5rem 2.5rem;max-width:1280px;margin:0 auto;">
   <div class="reveal" style="margin-bottom:3rem;">
     <p class="section-label" style="margin-bottom:.8rem;">Забронировать тур</p>
@@ -403,11 +397,18 @@ footer a:hover{color:#d4c4a0;}
     <p style="margin-top:1rem;font-size:.82rem;color:var(--stone);font-weight:300;max-width:360px;line-height:1.7;">Мы свяжемся с вами, чтобы рассказать о туре подробнее и ответить на все вопросы.</p>
   </div>
   <div class="contact-wrap">
-    <form onsubmit="handleSubmit(event)" class="reveal" style="display:flex;flex-direction:column;gap:1.8rem;">
-      <div><label class="form-label">Ваше имя</label><input type="text" placeholder="Как вас зовут?" class="form-field" required/></div>
-      <div><label class="form-label">Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" class="form-field" required/></div>
-      <div><label class="form-label">Интересующий тур</label>
-        <select class="form-field">
+    <form action="АДРЕС_ВАШЕЙ_ФОРМЫ_ИЗ_FORMSPREE" method="POST" class="reveal" style="display:flex;flex-direction:column;gap:1.8rem;">
+      <div>
+        <label class="form-label">Ваше имя</label>
+        <input type="text" name="name" placeholder="Как вас зовут?" class="form-field" required/>
+      </div>
+      <div>
+        <label class="form-label">Телефон</label>
+        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" class="form-field" required/>
+      </div>
+      <div>
+        <label class="form-label">Интересующий тур</label>
+        <select name="tour" class="form-field">
           <option value="" disabled selected>Выберите направление</option>
           <optgroup label="── Классические туры ──">
             <option>Знакомство с Грузией — 7 дней, 550$</option>
@@ -429,12 +430,20 @@ footer a:hover{color:#d4c4a0;}
           <option>Хочу свой маршрут</option>
         </select>
       </div>
-      <div><label class="form-label">Удобные даты</label><input type="text" placeholder="Например: май–июнь 2026" class="form-field"/></div>
-      <div><label class="form-label">Комментарий</label><textarea rows="3" placeholder="Ваши пожелания..." class="form-field" style="resize:none;"></textarea></div>
+      <div>
+        <label class="form-label">Удобные даты</label>
+        <input type="text" name="dates" placeholder="Например: май–июнь 2026" class="form-field"/>
+      </div>
+      <div>
+        <label class="form-label">Комментарий</label>
+        <textarea name="comment" rows="3" placeholder="Ваши пожелания..." class="form-field" style="resize:none;"></textarea>
+      </div>
+      
       <button type="submit" class="btn-submit">Отправить заявку</button>
+      
       <p style="font-size:.63rem;color:var(--stone);text-align:center;margin-top:-1rem;">Нажимая кнопку, вы соглашаетесь с условиями пользовательского соглашения.</p>
-      <p id="form-success" style="display:none;text-align:center;font-size:.85rem;color:#4a7a52;font-weight:500;">✓ Заявка отправлена! Свяжемся с вами в течение дня.</p>
     </form>
+
     <div class="info-card reveal reveal-d2">
       <h3>Почему выбирают нас?</h3>
       <div class="info-item"><div class="info-icon">🗺️</div><div class="info-text"><p>Маршруты</p><p>Авторские программы без шаблонных маршрутов и переполненных автобусов</p></div></div>
@@ -470,9 +479,7 @@ function showTab(tab){
   document.getElementById('tab-classic').style.display=tab==='classic'?'':'none';
   document.getElementById('tab-concert').style.display=tab==='concert'?'':'none';
   document.querySelectorAll('.tab-btn').forEach((btn,i)=>btn.classList.toggle('active',(i===0&&tab==='classic')||(i===1&&tab==='concert')));
-  setTimeout(()=>document.querySelectorAll('#tab-'+tab+' .reveal').forEach(el=>el.classList.add('visible')),60);
 }
-function handleSubmit(e){e.preventDefault();document.getElementById('form-success').style.display='block';e.target.reset();setTimeout(()=>document.getElementById('form-success').style.display='none',6000);}
 </script>
 </body>
 </html>
