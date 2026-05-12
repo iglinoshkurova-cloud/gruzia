@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Туры по Грузии — Перезагрузия</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#f5f0e8;--sage:#7a9e7e;--earth:#b07d56;--forest:#2d4a35;--stone:#9c9082;--light:#faf7f2;--muted:#f0ece3;}
+*{scroll-behavior:smooth;box-sizing:border-box;}
+body{font-family:'Raleway',sans-serif;background:var(--light);color:#2a2520;overflow-x:hidden;margin:0;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;transition:background .4s,box-shadow .4s;}
+nav.scrolled{background:rgba(250,247,242,.94);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.1em;color:#fff;transition:color .3s;text-decoration:none;}
+nav.scrolled .nav-logo{color:var(--forest);}
+.nav-links{display:flex;gap:2rem;}
+.nav-link{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.8);transition:color .3s;text-decoration:none;}
+nav.scrolled .nav-link{color:#5a4f45;}
+.nav-link:hover{color:#fff;}
+nav.scrolled .nav-link:hover{color:var(--earth);}
+.nav-cta{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(255,255,255,.5);color:#fff;padding:.5rem 1.2rem;border-radius:100px;text-decoration:none;transition:all .3s;}
+nav.scrolled .nav-cta{border-color:var(--forest);color:var(--forest);}
+.nav-cta:hover{background:var(--earth);border-color:var(--earth);color:#fff;}
+#hero{height:100vh;min-height:640px;position:relative;display:flex;align-items:center;justify-content:center;
+background:linear-gradient(160deg,rgba(45,74,53,.7) 0%,rgba(122,158,126,.3) 60%,rgba(176,125,86,.45) 100%),
+url('https://images.unsplash.com/photo-1565008576549-57569a49371d?w=1800&q=80') center/cover no-repeat;}
+#hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--light));}
+.hero-content{position:relative;z-index:2;text-align:center;padding:0 1.5rem;}
+.hero-eyebrow{display:inline-block;font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.3);padding:.35rem 1.2rem;border-radius:100px;margin-bottom:1.8rem;animation:fadeUp .9s ease both;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(3.2rem,9vw,8rem);font-weight:300;line-height:.92;color:#fff;letter-spacing:-.02em;animation:fadeUp .9s .15s ease both;}
+.hero-title em{font-style:italic;color:#d4c4a0;}
+.hero-sub{font-size:.9rem;font-weight:300;letter-spacing:.05em;color:rgba(255,255,255,.72);margin-top:1.6rem;animation:fadeUp .9s .3s ease both;}
+.btn-primary{display:inline-block;margin-top:2.5rem;background:var(--earth);color:#fff;padding:.9rem 2.6rem;border-radius:100px;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;transition:transform .25s,box-shadow .25s,background .25s;text-decoration:none;animation:fadeUp .9s .45s ease both;}
+.btn-primary:hover{background:var(--forest);transform:translateY(-2px);box-shadow:0 12px 30px rgba(45,74,53,.35);}
+.scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,.5);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:.5rem;animation:fadeUp 1.2s 1s ease both;}
+.scroll-hint span{display:block;width:1px;height:48px;background:rgba(255,255,255,.3);animation:scrollLine 2s 1.5s ease infinite;}
+.section-label{font-size:.63rem;letter-spacing:.35em;text-transform:uppercase;color:var(--sage);font-weight:500;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:300;line-height:1.1;letter-spacing:-.01em;}
+.section-title em{font-style:italic;color:var(--earth);}
+.divider{width:40px;height:1px;background:linear-gradient(to right,var(--sage),transparent);}
+.tab-btn{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;padding:.6rem 1.6rem;border-radius:100px;border:1.5px solid #d5cfc6;background:transparent;color:var(--stone);cursor:pointer;transition:all .3s;font-family:'Raleway',sans-serif;}
+.tab-btn.active{background:var(--forest);border-color:var(--forest);color:#fff;}
+.tab-btn:hover:not(.active){border-color:var(--sage);color:var(--forest);}
+.tour-card{position:relative;overflow:hidden;border-radius:1.5rem;cursor:pointer;transition:transform .4s cubic-bezier(.25,.46,.45,.94),box-shadow .4s;background:#fff;}
+.tour-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(45,74,53,.15);}
+.tour-card-img{width:100%;height:240px;object-fit:cover;display:block;transition:transform .7s;}
+.tour-card:hover .tour-card-img{transform:scale(1.06);}
+.tour-img-wrap{overflow:hidden;position:relative;}
+.tour-tag{position:absolute;top:1rem;left:1rem;background:rgba(255,255,255,.18);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;padding:.28rem .75rem;border-radius:100px;}
+.tour-tag.concert{background:rgba(176,125,86,.8);border-color:rgba(176,125,86,.5);}
+.tour-body{padding:1.5rem 1.6rem 1.8rem;}
+.tour-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;line-height:1.2;color:var(--forest);}
+.tour-desc{font-size:.76rem;color:var(--stone);margin-top:.4rem;line-height:1.6;font-weight:300;}
+.tour-meta{display:flex;align-items:center;gap:1rem;margin-top:.8rem;font-size:.68rem;color:var(--stone);}
+.tour-price{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--earth);margin-top:.9rem;}
+.tour-includes{margin-top:.7rem;display:flex;flex-direction:column;gap:.28rem;list-style:none;padding:0;}
+.tour-includes li{font-size:.71rem;color:#7a7068;display:flex;align-items:flex-start;gap:.5rem;}
+.tour-includes li::before{content:'✓';color:var(--sage);flex-shrink:0;font-weight:600;}
+.tour-link{display:inline-block;margin-top:1.3rem;border:1.5px solid var(--forest);color:var(--forest);padding:.55rem 1.5rem;border-radius:100px;font-size:.67rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;}
+.tour-link:hover{background:var(--forest);color:#fff;}
+.features-bar{background:var(--forest);border-radius:1.2rem;padding:2.2rem 2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3.5rem;}
+.feat-item{text-align:center;}
+.feat-num{font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:300;color:#d4c4a0;line-height:1;}
+.feat-label{font-size:.67rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-top:.4rem;}
+.exc-card{background:#fff;border-radius:1.2rem;padding:1.6rem;border:1px solid rgba(0,0,0,.06);transition:transform .35s,box-shadow .35s;display:flex;flex-direction:column;gap:.4rem;}
+.exc-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(45,74,53,.1);}
+.exc-icon{font-size:1.5rem;margin-bottom:.2rem;}
+.exc-name{font-family:'Cormorant Garamond',serif;font-size:1.15rem;color:var(--forest);font-weight:400;}
+.exc-desc{font-size:.74rem;color:var(--stone);line-height:1.6;font-weight:300;flex:1;}
+.exc-price{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--earth);font-weight:600;margin-top:.4rem;}
+.exc-link{font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:var(--sage);text-decoration:none;transition:color .3s;}
+.exc-link:hover{color:var(--forest);}
+.gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:.75rem;}
+.g1{grid-column:1/8;}.g2{grid-column:8/13;}
+.g3{grid-column:1/5;}.g4{grid-column:5/9;}.g5{grid-column:9/13;}
+.gallery-cell{overflow:hidden;border-radius:1rem;}
+.gallery-cell img{width:100%;object-fit:cover;display:block;transition:transform .7s;}
+.g1 img,.g2 img{height:340px;}.g3 img,.g4 img,.g5 img{height:230px;}
+.gallery-cell:hover img{transform:scale(1.05);}
+.review-card{background:#fff;border-radius:1.2rem;padding:1.8rem;border:1px solid rgba(0,0,0,.06);transition:transform .35s,box-shadow .35s;}
+.review-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(45,74,53,.1);}
+.review-stars{color:var(--earth);font-size:.85rem;margin-bottom:.8rem;}
+.review-text{font-size:.81rem;line-height:1.7;color:#5a4f45;font-weight:300;font-style:italic;}
+.review-author{margin-top:1.2rem;display:flex;align-items:center;gap:.8rem;}
+.review-avatar{width:40px;height:40px;border-radius:50%;background:var(--sage);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Cormorant Garamond',serif;font-size:1.1rem;flex-shrink:0;}
+.review-name{font-size:.8rem;font-weight:500;color:var(--forest);}
+.review-trip{font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--stone);margin-top:.15rem;}
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.form-field{border:none;border-bottom:1.5px solid #d5cfc6;background:transparent;width:100%;padding:.8rem 0;font-family:'Raleway',sans-serif;font-size:.9rem;color:#2a2520;outline:none;transition:border-color .3s;}
+.form-field::placeholder{color:#b0a898;}
+.form-field:focus{border-color:var(--sage);}
+select.form-field{cursor:pointer;appearance:none;}
+.form-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);margin-bottom:.2rem;display:block;}
+.btn-submit{margin-top:1.5rem;background:var(--forest);color:#fff;padding:1rem 3rem;border-radius:100px;font-family:'Raleway',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;transition:background .3s,transform .25s,box-shadow .25s;width:100%;}
+.btn-submit:hover{background:var(--earth);transform:translateY(-2px);box-shadow:0 10px 28px rgba(176,125,86,.3);}
+.info-card{background:var(--forest);border-radius:1.5rem;padding:2.4rem;color:#fff;position:sticky;top:6rem;}
+.info-card h3{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#d4c4a0;margin-bottom:1.2rem;}
+.info-item{display:flex;gap:1rem;align-items:flex-start;margin-bottom:1.4rem;}
+.info-icon{font-size:1.2rem;flex-shrink:0;margin-top:.1rem;}
+.info-text p:first-child{font-size:.67rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.info-text p:last-child{font-size:.86rem;color:rgba(255,255,255,.88);margin-top:.15rem;}
+.contact-pill{display:inline-block;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:.72rem;letter-spacing:.1em;padding:.6rem 1.3rem;border-radius:100px;text-decoration:none;transition:background .3s;}
+.contact-pill:hover{background:rgba(255,255,255,.22);}
+footer{background:var(--forest);color:rgba(255,255,255,.5);padding:2.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;}
+.logo-f{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:#d4c4a0;}
+footer p,footer a{font-size:.7rem;letter-spacing:.05em;color:rgba(255,255,255,.5);text-decoration:none;}
+footer a:hover{color:#d4c4a0;}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.18s}.reveal-d3{transition-delay:.28s}.reveal-d4{transition-delay:.38s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@media(max-width:900px){.contact-wrap{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr 1fr}.g1,.g2,.g3,.g4,.g5{grid-column:span 1}.g1 img,.g2 img{height:220px}.g3 img,.g4 img,.g5 img{height:180px}.features-bar{grid-template-columns:1fr}.nav-links,.nav-cta{display:none}}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">Перезагрузия</a>
+  <div class="nav-links">
+    <a href="#tours" class="nav-link">Туры</a>
+    <a href="#excursions" class="nav-link">Экскурсии</a>
+    <a href="#gallery" class="nav-link">Галерея</a>
+    <a href="#reviews" class="nav-link">Отзывы</a>
+  </div>
+  <a href="#contact" class="nav-cta">Связаться</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">Авторские туры · Грузия 2026</div>
+    <h1 class="hero-title">Захватывающие<br><em>приключения</em><br>в Грузии</h1>
+    <p class="hero-sub">Уникальные маршруты · История, культура, природа · Квалифицированный гид</p>
+    <a href="#tours" class="btn-primary">Смотреть туры</a>
+  </div>
+  <div class="scroll-hint">Листать <span></span></div>
+</section>
+
+<!-- INTRO -->
+<section style="padding:5rem 2.5rem 2rem;">
+  <div style="max-width:700px;margin:0 auto;text-align:center;" class="reveal">
+    <p class="section-label" style="margin-bottom:1rem;">О нас</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:1.55rem;font-weight:300;line-height:1.6;color:#3a332d;">
+      Приглашаем вас в увлекательное путешествие по Грузии! Уникальные маршруты, охватывающие основные достопримечательности страны. Вы познакомитесь с богатой историей, культурой и природой. Каждый этап продуман для вашего <em style="font-style:italic;color:var(--earth);">комфорта и удовольствия.</em>
+    </p>
+  </div>
+</section>
+
+<!-- TOURS -->
+<section id="tours" style="padding:4rem 2.5rem 5rem;max-width:1280px;margin:0 auto;">
+  <div class="reveal" style="margin-bottom:1.5rem;">
+    <p class="section-label" style="margin-bottom:.8rem;">Афиша путешествий 2026</p>
+    <h2 class="section-title">Выберите своё<br><em>приключение</em></h2>
+    <div class="divider" style="margin-top:1rem;"></div>
+  </div>
+  <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:2.5rem;" class="reveal">
+    <button class="tab-btn active" onclick="showTab('classic')">Классические туры</button>
+    <button class="tab-btn" onclick="showTab('concert')">Туры + Концерты</button>
+  </div>
+
+  <div id="tab-classic">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;">
+      <div class="tour-card reveal reveal-d1">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=600&q=80" alt="Тбилиси"/>
+          <span class="tour-tag">Популярный</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Знакомство с Грузией</div>
+          <div class="tour-desc">Классический маршрут — Тбилиси, Кахетия, Казбеги, Мцхета. Влюбиться раз и навсегда</div>
+          <div class="tour-meta"><span>📅 7 дней</span><span>👥 до 12 чел.</span></div>
+          <div class="tour-price">550$</div>
+          <ul class="tour-includes">
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Экскурсии по маршруту</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="tour-tbilisi.html" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d2">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Сванетия горы"/>
+          <span class="tour-tag">Гранд-тур</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Большое Грузинское путешествие</div>
+          <div class="tour-desc">Гранд-тур по 7 регионам: Кутаиси, Сванетия, Ушгули, Батуми</div>
+          <div class="tour-meta"><span>📅 9 дней</span><span>👥 до 12 чел.</span></div>
+          <div class="tour-price">900$</div>
+          <ul class="tour-includes">
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Экскурсии по маршруту</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="tour-grand.html" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d3">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80" alt="Батуми море"/>
+          <span class="tour-tag">Море + Горы</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Батуми: море и драйв</div>
+          <div class="tour-desc">Горная Аджария, море, субтропики и гора Бахмаро над облаками</div>
+          <div class="tour-meta"><span>📅 7 дней</span><span>👥 до 12 чел.</span></div>
+          <div class="tour-price">800$</div>
+          <ul class="tour-includes">
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Экскурсии по маршруту</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="tour-batumi.html" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d4">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&q=80" alt="Сванетия башни"/>
+          <span class="tour-tag">Горный</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Горный регион Сванетия</div>
+          <div class="tour-desc">Перезагрузка среди величественных гор, старинных башен и ледников</div>
+          <div class="tour-meta"><span>📅 7 дней</span><span>👥 до 10 чел.</span></div>
+          <div class="tour-price">900$</div>
+          <ul class="tour-includes">
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Экскурсии по маршруту</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="tour-svaneti.html" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tab-concert" style="display:none;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1.5rem;">
+      <div class="tour-card reveal reveal-d1">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80" alt="Концерт"/>
+          <span class="tour-tag concert">🎵 Концерт</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Тур + Концерт Tom Odell</div>
+          <div class="tour-desc">Собрали самое лучшее — Грузия и живая музыка</div>
+          <div class="tour-meta"><span>📅 7 дней</span></div>
+          <div class="tour-price">630$</div>
+          <ul class="tour-includes">
+            <li>Билет на концерт</li>
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="https://perezagruzia-travel.tilda.ws/tomodell" target="_blank" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d2">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&q=80" alt="Концерт"/>
+          <span class="tour-tag concert">🎵 Концерт</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Тур + Концерт Ricky Martin</div>
+          <div class="tour-desc">Энергия Грузии и горячий Ricky Martin</div>
+          <div class="tour-meta"><span>📅 5–7 дней</span></div>
+          <div class="tour-price">от 470$</div>
+          <ul class="tour-includes">
+            <li>Билет на концерт</li>
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="https://perezagruzia-travel.tilda.ws/rickymartin" target="_blank" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d3">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1501386761578-eaa54b735c6d?w=600&q=80" alt="Концерт"/>
+          <span class="tour-tag concert">🎵 Концерт</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Тур + Концерт Moby</div>
+          <div class="tour-desc">Медитативная атмосфера Грузии и электронная музыка Moby</div>
+          <div class="tour-meta"><span>📅 5–7 дней</span></div>
+          <div class="tour-price">от 470$</div>
+          <ul class="tour-includes">
+            <li>Билет на концерт</li>
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="https://perezagruzia-travel.tilda.ws/moby" target="_blank" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+      <div class="tour-card reveal reveal-d4">
+        <div class="tour-img-wrap">
+          <img class="tour-card-img" src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&q=80" alt="Концерт"/>
+          <span class="tour-tag concert">🎵 Концерт</span>
+        </div>
+        <div class="tour-body">
+          <div class="tour-name">Тур + Kanye West</div>
+          <div class="tour-desc">Культовый артист и Грузия — собрали самое лучшее</div>
+          <div class="tour-meta"><span>📅 7 дней</span></div>
+          <div class="tour-price">от 550$</div>
+          <ul class="tour-includes">
+            <li>Все трансферы в период тура</li>
+            <li>Проживание в отеле</li>
+            <li>Ежедневные завтраки в отеле</li>
+            <li>Экскурсии по маршруту</li>
+            <li>Услуги квалифицированного гида</li>
+          </ul>
+          <a href="https://perezagruzia-travel.tilda.ws/kanyewest" target="_blank" class="tour-link">Подробнее</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="features-bar reveal">
+    <div class="feat-item"><div class="feat-num">200+</div><div class="feat-label">Довольных путешественников</div></div>
+    <div class="feat-item"><div class="feat-num">8</div><div class="feat-label">Авторских маршрутов</div></div>
+    <div class="feat-item"><div class="feat-num">7</div><div class="feat-label">Регионов Грузии</div></div>
+  </div>
+</section>
+
+<!-- EXCURSIONS -->
+<section id="excursions" style="background:var(--muted);padding:5rem 2.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="reveal" style="margin-bottom:2.5rem;">
+      <p class="section-label" style="margin-bottom:.8rem;">Афиша экскурсий 2026</p>
+      <h2 class="section-title">Места, которые<br>мы <em>откроем</em> для вас</h2>
+      <div class="divider" style="margin-top:1rem;"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;">
+      <div class="exc-card reveal reveal-d1"><div class="exc-icon">🏙️</div><div class="exc-name">Обзорная по Тбилиси</div><div class="exc-desc">Идеальный выбор, чтобы открыть Тбилиси с нуля или заново влюбиться в него вместе с местным гидом.</div><div class="exc-price">от 20$</div><a href="https://perezagruzia-travel.tilda.ws/tbilisi" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d2"><div class="exc-icon">🍷</div><div class="exc-name">Кахетия</div><div class="exc-desc">Попробуем легендарные вина и почувствуем атмосферу уюта и настоящего грузинского гостеприимства.</div><div class="exc-price">от 40$</div><a href="https://perezagruzia-travel.tilda.ws/kahetia" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d3"><div class="exc-icon">⛰️</div><div class="exc-name">Казбеги</div><div class="exc-desc">Отправляемся исследовать Казбеги — самый горный и захватывающий регион Грузии.</div><div class="exc-price">от 50$</div><a href="https://perezagruzia-travel.tilda.ws/kazbegi" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d4"><div class="exc-icon">⛪</div><div class="exc-name">Мцхета — Джвари</div><div class="exc-desc">Духовная столица Грузии — древние монастыри и слияние двух великих рек.</div><div class="exc-price">от 30$</div><a href="https://perezagruzia-travel.tilda.ws/mtskheta" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d1"><div class="exc-icon">🌊</div><div class="exc-name">Каньоны: Мартвили, Окаце, Прометея</div><div class="exc-desc">Водопады, пещеры, скалы — всё это за один насыщенный незабываемый день.</div><div class="exc-price">от 45$</div><a href="https://perezagruzia-travel.tilda.ws/canyon" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d2"><div class="exc-icon">🏞️</div><div class="exc-name">Дашбаши каньон</div><div class="exc-desc">Уникальный природный памятник Грузии с захватывающими видами.</div><div class="exc-price">от 45$</div><a href="https://perezagruzia-travel.tilda.ws/dashbashi" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d3"><div class="exc-icon">💧</div><div class="exc-name">Боржоми</div><div class="exc-desc">Знаменитый курортный город с целебными минеральными водами и живописным парком.</div><div class="exc-price">от 45$</div><a href="https://perezagruzia-travel.tilda.ws/borjomi" target="_blank" class="exc-link">Подробнее →</a></div>
+      <div class="exc-card reveal reveal-d4" style="background:var(--forest);border-color:transparent;"><div class="exc-icon">✨</div><div class="exc-name" style="color:#d4c4a0;">И много других мест</div><div class="exc-desc" style="color:rgba(255,255,255,.65);">Напишите нам, если не нашли то место, которое хотели бы посетить.</div><div class="exc-price" style="color:rgba(212,196,160,.9);">от 45$</div><a href="#contact" class="exc-link" style="color:var(--sage);">Написать нам →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" style="background:var(--light);padding:5rem 2.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="reveal" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;gap:1rem;">
+      <div>
+        <p class="section-label" style="margin-bottom:.8rem;">Жизнь маршрута</p>
+        <h2 class="section-title">Моменты, которые<br>остаются <em>навсегда</em></h2>
+      </div>
+      <p style="font-size:.8rem;color:var(--stone);font-weight:300;max-width:240px;text-align:right;line-height:1.7;">Реальные фотографии с наших туров — без фильтров, без постановки.</p>
+    </div>
+    <div class="gallery-grid reveal">
+      <div class="gallery-cell g1"><img src="https://images.unsplash.com/photo-1565008576549-57569a49371d?w=900&q=80" alt="Горы"/></div>
+      <div class="gallery-cell g2"><img src="https://images.unsplash.com/photo-1599930113854-d6d7fd521f10?w=600&q=80" alt="Тбилиси"/></div>
+      <div class="gallery-cell g3"><img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500&q=80" alt="Храм"/></div>
+      <div class="gallery-cell g4"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=500&q=80" alt="Море"/></div>
+      <div class="gallery-cell g5"><img src="https://images.unsplash.com/photo-1549887534-1541e9326642?w=500&q=80" alt="Горы"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" style="background:var(--muted);padding:5rem 2.5rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div class="reveal" style="margin-bottom:2.5rem;">
+      <p class="section-label" style="margin-bottom:.8rem;">Отзывы участников</p>
+      <h2 class="section-title">Что говорят<br>те, кто <em>уже был</em></h2>
+      <div class="divider" style="margin-top:1rem;"></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.5rem;">
+      <div class="review-card reveal reveal-d1"><div class="review-stars">★★★★★</div><div class="review-text">Потрясающая поездка по Грузии! Интересные экскурсии, вкусная еда и новые знакомства. Спасибо организаторам!</div><div class="review-author"><div class="review-avatar">М</div><div><div class="review-name">Мария</div><div class="review-trip">Первый раз в Грузии</div></div></div></div>
+      <div class="review-card reveal reveal-d2"><div class="review-stars">★★★★★</div><div class="review-text">Замечательный тур! Гид был очень эрудированным и интересным, а маршруты продуманы до мелочей. Обязательно вернусь!</div><div class="review-author"><div class="review-avatar" style="background:var(--earth);">С</div><div><div class="review-name">Сергей</div><div class="review-trip">Второй раз в Грузии</div></div></div></div>
+      <div class="review-card reveal reveal-d3"><div class="review-stars">★★★★★</div><div class="review-text">Прекрасные впечатления от тура! Всё было организовано на высшем уровне, от транспорта до питания. Рекомендую!</div><div class="review-author"><div class="review-avatar" style="background:var(--stone);">А</div><div><div class="review-name">Анна</div><div class="review-trip">Первый раз в Грузии</div></div></div></div>
+      <div class="review-card reveal reveal-d4"><div class="review-stars">★★★★★</div><div class="review-text">Отличный тур! Гид увлекательно рассказывал о культуре и истории Грузии, а места были просто потрясающими.</div><div class="review-author"><div class="review-avatar" style="background:#6b8fa0;">И</div><div><div class="review-name">Иван</div><div class="review-trip">Третий раз в Грузии</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:5rem 2.5rem;max-width:1280px;margin:0 auto;">
+  <div class="reveal" style="margin-bottom:3rem;">
+    <p class="section-label" style="margin-bottom:.8rem;">Забронировать тур</p>
+    <h2 class="section-title">Ура, вы решились!<br><em>Заполните форму</em></h2>
+    <div class="divider" style="margin-top:1rem;"></div>
+    <p style="margin-top:1rem;font-size:.82rem;color:var(--stone);font-weight:300;max-width:360px;line-height:1.7;">Мы свяжемся с вами, чтобы рассказать о туре подробнее и ответить на все вопросы.</p>
+  </div>
+  <div class="contact-wrap">
+    <form onsubmit="handleSubmit(event)" class="reveal" style="display:flex;flex-direction:column;gap:1.8rem;">
+      <div><label class="form-label">Ваше имя</label><input type="text" placeholder="Как вас зовут?" class="form-field" required/></div>
+      <div><label class="form-label">Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" class="form-field" required/></div>
+      <div><label class="form-label">Интересующий тур</label>
+        <select class="form-field">
+          <option value="" disabled selected>Выберите направление</option>
+          <optgroup label="── Классические туры ──">
+            <option>Знакомство с Грузией — 7 дней, 550$</option>
+            <option>Большое Грузинское путешествие — 9 дней, 900$</option>
+            <option>Батуми: море и драйв — 7 дней, 800$</option>
+            <option>Горный регион Сванетия — 7 дней, 900$</option>
+          </optgroup>
+          <optgroup label="── Туры + Концерты ──">
+            <option>Тур + Концерт Tom Odell — 7 дней, 630$</option>
+            <option>Тур + Концерт Ricky Martin — от 470$</option>
+            <option>Тур + Концерт Moby — от 470$</option>
+            <option>Тур + Kanye West — 7 дней, от 550$</option>
+          </optgroup>
+          <optgroup label="── Экскурсии ──">
+            <option>Обзорная по Тбилиси — от 20$</option>
+            <option>Кахетия — от 40$</option>
+            <option>Казбеги — от 50$</option>
+          </optgroup>
+          <option>Хочу свой маршрут</option>
+        </select>
+      </div>
+      <div><label class="form-label">Удобные даты</label><input type="text" placeholder="Например: май–июнь 2026" class="form-field"/></div>
+      <div><label class="form-label">Комментарий</label><textarea rows="3" placeholder="Ваши пожелания..." class="form-field" style="resize:none;"></textarea></div>
+      <button type="submit" class="btn-submit">Отправить заявку</button>
+      <p style="font-size:.63rem;color:var(--stone);text-align:center;margin-top:-1rem;">Нажимая кнопку, вы соглашаетесь с условиями пользовательского соглашения.</p>
+      <p id="form-success" style="display:none;text-align:center;font-size:.85rem;color:#4a7a52;font-weight:500;">✓ Заявка отправлена! Свяжемся с вами в течение дня.</p>
+    </form>
+    <div class="info-card reveal reveal-d2">
+      <h3>Почему выбирают нас?</h3>
+      <div class="info-item"><div class="info-icon">🗺️</div><div class="info-text"><p>Маршруты</p><p>Авторские программы без шаблонных маршрутов и переполненных автобусов</p></div></div>
+      <div class="info-item"><div class="info-icon">🏡</div><div class="info-text"><p>Проживание</p><p>Тщательно отобранные отели с ежедневными завтраками</p></div></div>
+      <div class="info-item"><div class="info-icon">🍷</div><div class="info-text"><p>Гастрономия</p><p>Дегустации вина, хинкали у хозяек — настоящая Грузия на вкус</p></div></div>
+      <div class="info-item"><div class="info-icon">💬</div><div class="info-text"><p>Поддержка</p><p>Квалифицированный гид от бронирования до возвращения домой</p></div></div>
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:1.4rem;margin-top:.4rem;">
+        <p style="font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.8rem;">Написать напрямую</p>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap;">
+          <a href="https://t.me/iglinoshkurova" target="_blank" class="contact-pill">✈️ Telegram</a>
+          <a href="https://wa.me/79095469515" target="_blank" class="contact-pill">💬 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="logo-f">Перезагрузия</div>
+  <p>© 2026 · Туры по Грузии</p>
+  <div style="display:flex;gap:1rem;">
+    <a href="https://t.me/iglinoshkurova" target="_blank">Telegram</a>
+    <a href="https://wa.me/79095469515" target="_blank">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('scrolled',window.scrollY>60));
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function showTab(tab){
+  document.getElementById('tab-classic').style.display=tab==='classic'?'':'none';
+  document.getElementById('tab-concert').style.display=tab==='concert'?'':'none';
+  document.querySelectorAll('.tab-btn').forEach((btn,i)=>btn.classList.toggle('active',(i===0&&tab==='classic')||(i===1&&tab==='concert')));
+  setTimeout(()=>document.querySelectorAll('#tab-'+tab+' .reveal').forEach(el=>el.classList.add('visible')),60);
+}
+function handleSubmit(e){e.preventDefault();document.getElementById('form-success').style.display='block';e.target.reset();setTimeout(()=>document.getElementById('form-success').style.display='none',6000);}
+</script>
+</body>
+</html>
