@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Тур + Концерт — Перезагрузия</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--cream:#f5f0e8;--sage:#7a9e7e;--earth:#b07d56;--forest:#2d4a35;--stone:#9c9082;--light:#faf7f2;--muted:#f0ece3;}
+*{scroll-behavior:smooth;box-sizing:border-box;}
+body{font-family:'Raleway',sans-serif;background:var(--light);color:#2a2520;overflow-x:hidden;margin:0;padding-top:72px;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,247,242,.96);backdrop-filter:blur(14px);box-shadow:0 1px 0 rgba(0,0,0,.07);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;letter-spacing:.1em;color:var(--forest);text-decoration:none;}
+.nav-links{display:flex;gap:2rem;}
+.nav-link{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#5a4f45;transition:color .3s;text-decoration:none;}
+.nav-link:hover{color:var(--earth);}
+.nav-cta{font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--forest);color:var(--forest);padding:.5rem 1.2rem;border-radius:100px;text-decoration:none;transition:all .3s;}
+.nav-cta:hover{background:var(--earth);border-color:var(--earth);color:#fff;}
+.tour-hero{height:70vh;min-height:480px;position:relative;display:flex;align-items:flex-end;justify-content:flex-start;overflow:hidden;}
+.tour-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.tour-hero::before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(20,35,22,.85) 0%,rgba(20,35,22,.3) 60%,transparent 100%);}
+.tour-hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:160px;z-index:1;background:linear-gradient(to bottom,transparent,var(--light));}
+.tour-hero-content{position:relative;z-index:2;padding:3rem 2.5rem;max-width:800px;}
+.back-link{display:inline-flex;align-items:center;gap:.5rem;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.7);text-decoration:none;margin-bottom:1.5rem;transition:color .3s;}
+.back-link:hover{color:#fff;}
+.tour-hero-tag{display:inline-block;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.8);padding:.28rem .9rem;border-radius:100px;margin-bottom:1rem;}
+.tour-hero-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,7vw,5.5rem);font-weight:300;line-height:.95;color:#fff;letter-spacing:-.02em;}
+.tour-hero-title em{font-style:italic;color:#d4c4a0;}
+.tour-hero-price{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#d4c4a0;margin-top:1rem;}
+.tour-hero-meta{display:flex;gap:1.5rem;margin-top:.6rem;font-size:.75rem;color:rgba(255,255,255,.65);}
+.section-label{font-size:.63rem;letter-spacing:.35em;text-transform:uppercase;color:var(--sage);font-weight:500;}
+.divider{width:40px;height:1px;background:linear-gradient(to right,var(--sage),transparent);}
+.dates-grid{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;}
+.date-pill{background:var(--muted);border:1px solid #d5cfc6;font-size:.72rem;padding:.4rem 1rem;border-radius:100px;color:#5a4f45;}
+.days-list{display:flex;flex-direction:column;gap:0;}
+.day-item{display:grid;grid-template-columns:80px 1fr;gap:0;border-top:1px solid #e8e2d8;}
+.day-item:last-child{border-bottom:1px solid #e8e2d8;}
+.day-num{padding:1.8rem 1rem 1.8rem 0;display:flex;flex-direction:column;align-items:flex-start;gap:.3rem;}
+.day-label{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);}
+.day-n{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:var(--forest);line-height:1;}
+.day-body{padding:1.8rem 0 1.8rem 1.5rem;border-left:1px solid #e8e2d8;}
+.day-title{font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:400;color:var(--forest);}
+.day-desc{font-size:.8rem;color:var(--stone);margin-top:.5rem;line-height:1.7;font-weight:300;}
+.day-desc ul{padding-left:1.2rem;margin:.5rem 0 0;display:flex;flex-direction:column;gap:.3rem;}
+.day-desc li{font-size:.78rem;}
+.includes-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.inc-col h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:400;color:var(--forest);margin-bottom:1rem;}
+.inc-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:.5rem;}
+.inc-list li{font-size:.78rem;color:#5a4f45;display:flex;align-items:flex-start;gap:.6rem;line-height:1.5;}
+.inc-list li.yes::before{content:'checkmark';color:var(--sage);font-weight:700;flex-shrink:0;}
+.inc-list li.no::before{content:'cross';color:#c0978a;font-weight:700;flex-shrink:0;}
+.form-field{border:none;border-bottom:1.5px solid #d5cfc6;background:transparent;width:100%;padding:.8rem 0;font-family:'Raleway',sans-serif;font-size:.9rem;color:#2a2520;outline:none;transition:border-color .3s;}
+.form-field::placeholder{color:#b0a898;}
+.form-field:focus{border-color:var(--sage);}
+.form-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);margin-bottom:.2rem;display:block;}
+.btn-submit{margin-top:1.5rem;background:var(--forest);color:#fff;padding:1rem 3rem;border-radius:100px;font-family:'Raleway',sans-serif;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;border:none;cursor:pointer;transition:background .3s,transform .25s;width:100%;}
+.btn-submit:hover{background:var(--earth);transform:translateY(-2px);}
+footer{background:var(--forest);color:rgba(255,255,255,.5);padding:2.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;}
+.logo-f{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;letter-spacing:.1em;color:#d4c4a0;}
+footer p,footer a{font-size:.7rem;color:rgba(255,255,255,.5);text-decoration:none;}
+footer a:hover{color:#d4c4a0;}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-d1{transition-delay:.08s}.reveal-d2{transition-delay:.18s}.reveal-d3{transition-delay:.28s}
+@media(max-width:768px){.nav-links,.nav-cta{display:none;}.includes-grid{grid-template-columns:1fr;}.day-item{grid-template-columns:60px 1fr;}}
+
+.concert-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(176,125,86,.2);border:1px solid rgba(176,125,86,.5);color:#d4c4a0;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;padding:.4rem 1.1rem;border-radius:100px;margin-bottom:1rem;}
+.ticket-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:1rem;margin-top:1.2rem;}
+.ticket-card{background:#fff;border:1.5px solid #e8e2d8;border-radius:1.2rem;padding:1.4rem 1.2rem;text-align:center;transition:border-color .3s,box-shadow .3s,transform .3s;}
+.ticket-card:hover{border-color:var(--sage);box-shadow:0 8px 24px rgba(45,74,53,.1);transform:translateY(-3px);}
+.t-type{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--stone);margin-bottom:.6rem;}
+.t-price{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:600;color:var(--earth);line-height:1;}
+.t-sub{font-size:.65rem;color:var(--stone);margin-top:.35rem;line-height:1.4;}
+.trust-box{background:var(--muted);border-radius:1.2rem;padding:1.8rem;margin-top:2rem;border-left:3px solid var(--sage);}
+.trust-box p{font-size:.8rem;color:#5a4f45;line-height:1.7;font-weight:300;}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Перезагрузия</a>
+  <div class="nav-links">
+    <a href="index.html#tours" class="nav-link">Туры</a>
+    <a href="index.html#excursions" class="nav-link">Экскурсии</a>
+    <a href="index.html#gallery" class="nav-link">Галерея</a>
+    <a href="index.html#reviews" class="nav-link">Отзывы</a>
+  </div>
+  <a href="#book" class="nav-cta">Забронировать</a>
+</nav>
+
+<div class="tour-hero">
+  <img src="https://images.unsplash.com/photo-1501386761578-eaa54b735c6d?w=1600&q=80" alt="Тур + Концерт"/>
+  <div class="tour-hero-content">
+    <a href="index.html" class="back-link">← Все туры</a>
+    <div class="concert-badge">🎵 Тур + Концерт</div>
+    <h1 class="tour-hero-title">Тур + Концерт<br><em>Moby</em></h1>
+    <div class="tour-hero-meta" style="margin-top:1rem;"><span>📅 27.07 – 02.08.2026</span><span>👥 цена за двухместное размещение</span></div>
+  </div>
+</div>
+
+<div style="max-width:900px;margin:0 auto;padding:4rem 2.5rem;">
+
+  <div class="reveal" style="margin-bottom:4rem;">
+    <p class="section-label" style="margin-bottom:.8rem;">Стоимость тура</p>
+    <div class="divider" style="margin-bottom:1.2rem;"></div>
+    <div class="ticket-cards"><div class="ticket-card"><div class="t-type">Стоимость тура</div><div class="t-price">470–600$</div><div class="t-sub">за двухместное размещение</div></div></div>
+    
+  </div>
+
+  <div class="reveal" style="margin-bottom:1.5rem;">
+    <p class="section-label" style="margin-bottom:.8rem;">Программа тура</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:300;line-height:1.1;color:var(--forest);margin-bottom:.5rem;">Подробный маршрут<br>по <em style="font-style:italic;color:var(--earth);">дням</em></h2>
+    <div class="divider" style="margin-bottom:2rem;"></div>
+  </div>
+  <div class="days-list" style="margin-bottom:4rem;"><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">0</span></div>
+          <div class="day-body"><div class="day-title">✈️ Прибытие в Тбилиси</div><div class="day-desc">Встречаем в аэропорту, сопровождаем до отеля. Размещение и отдых после перелёта.</div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">27.07</span></div>
+          <div class="day-body"><div class="day-title">🏙️ Знакомство с городом</div><div class="day-desc">Много пешком — одевайтесь удобно:<ul><li>Парк Рике</li><li>Канатная дорога</li><li>Крепость Нарикала</li><li>Родина-мать</li><li>Площадь Европы</li><li>Мост Метехи</li><li>Серные бани</li><li>Меидан</li><li>Улочки Шардена</li><li>Сионский собор</li><li>Мост Мира</li></ul></div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">28.07</span></div>
+          <div class="day-body"><div class="day-title">🎵 Кахетия</div><div class="day-desc">Дегустация вин и застолье:<ul><li>Монастырь Бодбе с видом на Алазанскую долину</li><li>Прогулка по городу любви Сигнахи</li></ul></div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">29.07</span></div>
+          <div class="day-body"><div class="day-title">⛰️ Казбеги</div><div class="day-desc">По Военно-Грузинской дороге:<ul><li>Жинвальское водохранилище</li><li>Крепость Ананури</li><li>Слияние рек Арагви</li><li>Гудаури — канатная дорога</li><li>Арка дружбы народов</li><li>Монастырь Гергети</li><li>Обед в Пасанаури</li></ul></div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">30.07</span></div>
+          <div class="day-body"><div class="day-title">🏛️ 🎵 Концерт Moby</div><div class="day-desc">Трансфер и сопровождение на концерт туда и обратно.</div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">31.07</span></div>
+          <div class="day-body"><div class="day-title">🍷 Мцхета (доп. день)</div><div class="day-desc">Духовная столица Грузии:<ul><li>Храм Светицховели</li><li>Вид на слияние рек Куры и Арагви</li><li>Монастырь Самтавро</li></ul></div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">01.08</span></div>
+          <div class="day-body"><div class="day-title">💧 Дашбашский каньон (доп. день)</div><div class="day-desc">Район Картли:<ul><li>Цалка — один из красивейших каньонов</li><li>Дашбаш — Бриллиантовый мост</li><li>Каскадные водопады</li></ul></div></div>
+        </div><div class="day-item reveal">
+          <div class="day-num"><span class="day-label">день</span><span class="day-n" style="font-size:clamp(.85rem,2vw,1.1rem);letter-spacing:-.01em;">02.08</span></div>
+          <div class="day-body"><div class="day-title">🎒 Свободный день · Вылет</div><div class="day-desc">Свободное время, трансфер в аэропорт.</div></div>
+        </div></div>
+
+  <div class="reveal" style="background:var(--muted);border-radius:1.5rem;padding:2.5rem;margin-bottom:4rem;">
+    <p class="section-label" style="margin-bottom:1rem;">Состав тура</p>
+    <div class="includes-grid">
+      <div class="inc-col"><h4>Включено в стоимость</h4><ul class="inc-list"><li class="yes">✓ Встреча и проводы в аэропорту Тбилиси</li><li class="yes">✓ Проживание в 2-местных номерах</li><li class="yes">✓ Завтраки в отеле</li><li class="yes">✓ Транспортное обслуживание</li><li class="yes">✓ Услуги русскоговорящего гида</li><li class="yes">✓ Билет на концерт Moby</li><li class="yes">✓ Дегустация вин в Кахетии</li></ul></div>
+      <div class="inc-col"><h4>Не включено</h4><ul class="inc-list"><li class="no">✗ Авиабилеты</li><li class="no">✗ Питание (кроме завтраков)</li><li class="no">✗ Личные расходы</li><li class="no">✗ Медицинская страховка</li></ul></div>
+    </div>
+  </div>
+
+  <div id="book" class="reveal" style="background:var(--forest);border-radius:1.5rem;padding:2.5rem;">
+    <p style="font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.5rem;">Забронировать тур</p>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#d4c4a0;margin-bottom:.5rem;">Ура, вы решились!</h2>
+    <p style="font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:1.5rem;">Заполните форму — мы свяжемся с вами и расскажем всё подробнее.</p>
+    <div style="background:rgba(255,255,255,.08);border-radius:.8rem;padding:1.2rem;margin-top:1.5rem;"><p style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7;">Тур можно выбрать на 5 или 7 дней. Дни 31.07 и 01.08 — дополнительные, по желанию.</p></div>
+    <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Ваше имя</label><input type="text" placeholder="Как вас зовут?" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/></div>
+      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/></div>
+      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Комментарий</label><textarea rows="3" placeholder="Ваши пожелания или вопросы..." class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;resize:none;"></textarea></div>
+      <button type="submit" class="btn-submit" style="background:var(--earth);">Отправить заявку</button>
+      <p style="font-size:.63rem;color:rgba(255,255,255,.35);text-align:center;margin-top:-.5rem;">Нажимая кнопку, вы соглашаетесь с условиями пользовательского соглашения.</p>
+      <p id="form-success" style="display:none;text-align:center;font-size:.85rem;color:#a8d5b0;font-weight:500;">✓ Заявка отправлена! Свяжемся с вами в течение дня.</p>
+    </form>
+  </div>
+
+</div>
+
+<footer>
+  <div class="logo-f">Перезагрузия</div>
+  <p>© 2026 · Туры по Грузии</p>
+  <div style="display:flex;gap:1rem;">
+    <a href="https://t.me/iglinoshkurova" target="_blank">Telegram</a>
+    <a href="https://wa.me/79095469515" target="_blank">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+function handleSubmit(e){e.preventDefault();document.getElementById('form-success').style.display='block';e.target.reset();setTimeout(()=>document.getElementById('form-success').style.display='none',6000);}
+</script>
+</body>
+</html>
