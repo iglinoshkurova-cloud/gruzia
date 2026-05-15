@@ -151,16 +151,34 @@ footer a:hover{color:#d4c4a0;}
     <p style="font-size:.63rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:.5rem;">Забронировать тур</p>
     <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;color:#d4c4a0;margin-bottom:.5rem;">Ура, вы решились!</h2>
     <p style="font-size:.8rem;color:rgba(255,255,255,.6);margin-bottom:1.5rem;">Заполните форму — мы свяжемся с вами и расскажем всё подробнее.</p>
-    <div style="background:rgba(255,255,255,.08);border-radius:.8rem;padding:1.2rem;margin-top:1.5rem;"><p style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7;">Тур можно выбрать на 5 или 7 дней. Дни 17.07 и 18.07 — дополнительные, по желанию.</p></div>
-    <form onsubmit="handleSubmit(event)" style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
-      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Ваше имя</label><input type="text" placeholder="Как вас зовут?" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/></div>
-      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Телефон</label><input type="tel" placeholder="+7 (___) ___-__-__" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/></div>
-      <div><label class="form-label" style="color:rgba(255,255,255,.5);">Комментарий</label><textarea rows="3" placeholder="Ваши пожелания или вопросы..." class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;resize:none;"></textarea></div>
+    <div style="background:rgba(255,255,255,.08);border-radius:.8rem;padding:1.2rem;margin-top:1.5rem;">
+        <p style="font-size:.78rem;color:rgba(255,255,255,.7);line-height:1.7;">Тур можно выбрать на 5 или 7 дней. Дни 31.07 и 01.08 — дополнительные, по желанию.</p>
+    </div>
+
+    <form action="https://formspree.io/f/mvzllnrq" method="POST" style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;">
+      
+      <div>
+        <label class="form-label" style="color:rgba(255,255,255,.5);">Ваше имя</label>
+        <input type="text" name="name" placeholder="Как вас зовут?" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/>
+      </div>
+
+      <div>
+        <label class="form-label" style="color:rgba(255,255,255,.5);">Телефон</label>
+        <input type="tel" name="phone" placeholder="+7 (___) ___-__-__" class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;" required/>
+      </div>
+
+      <div>
+        <label class="form-label" style="color:rgba(255,255,255,.5);">Комментарий</label>
+        <textarea name="message" rows="3" placeholder="Ваши пожелания или вопросы..." class="form-field" style="border-bottom-color:rgba(255,255,255,.25);color:#fff;resize:none;"></textarea>
+      </div>
+
+      <input type="text" name="_gotcha" style="display:none" />
+      
       <button type="submit" class="btn-submit" style="background:var(--earth);">Отправить заявку</button>
+      
       <p style="font-size:.63rem;color:rgba(255,255,255,.35);text-align:center;margin-top:-.5rem;">Нажимая кнопку, вы соглашаетесь с условиями пользовательского соглашения.</p>
-      <p id="form-success" style="display:none;text-align:center;font-size:.85rem;color:#a8d5b0;font-weight:500;">✓ Заявка отправлена! Свяжемся с вами в течение дня.</p>
     </form>
-  </div>
+</div>
 
 </div>
 
